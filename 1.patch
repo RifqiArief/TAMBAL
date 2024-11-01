@@ -1,0 +1,15 @@
+Index: app/src/main/java/com/example/kelompok2/Activities/SettingsActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/kelompok2/Activities/SettingsActivity.kt b/app/src/main/java/com/example/kelompok2/Activities/SettingsActivity.kt
+new file mode 100644
+--- /dev/null	(date 1729814876646)
++++ b/app/src/main/java/com/example/kelompok2/Activities/SettingsActivity.kt	(date 1729814876646)
+@@ -0,0 +1,4 @@
++package com.example.kelompok2.Activities
++
++class SettingsActivity {
++}
+\ No newline at end of file

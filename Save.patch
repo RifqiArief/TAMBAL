@@ -1,0 +1,26 @@
+Index: app/src/main/res/layout/fragment_home.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_home.xml b/app/src/main/res/layout/fragment_home.xml
+--- a/app/src/main/res/layout/fragment_home.xml	
++++ b/app/src/main/res/layout/fragment_home.xml	(date 1729812075720)
+@@ -280,7 +280,7 @@
+                 android:layout_marginStart="16dp"
+                 android:layout_marginTop="16dp"
+                 android:fontFamily="@font/montserrat_bold"
+-                android:text="Brands"
++                android:text="Chat"
+                 android:textColor="@color/blue_800"
+                 android:textSize="16sp"
+                 app:layout_constraintEnd_toEndOf="parent"
+@@ -355,7 +355,7 @@
+                 android:layout_marginStart="16dp"
+                 android:layout_marginTop="16dp"
+                 android:fontFamily="@font/montserrat_bold"
+-                android:text="Popular Cars"
++                android:text="Nearby"
+                 android:textColor="@color/blue_800"
+                 android:textSize="16sp"
+                 app:layout_constraintEnd_toEndOf="parent"
