@@ -7,19 +7,19 @@
     <color name="teal_700">#FF018786</color>
 
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="off_white">#F5F5F5</color>
+    <color name="white">#F9F7F1</color>
+    <color name="off_white">#F9F7F1</color>
 
-    <color name="blue_100">#8ECAE6</color>
-    <color name="blue_200">#58B4D1</color>
-    <color name="blue_300">#219EBC</color>
-    <color name="blue_400">#1A839F</color>
-    <color name="blue_500">#126782</color>
-    <color name="blue_600">#126782</color>
-    <color name="blue_700">#0A4C65</color>
-    <color name="blue_800">#023047</color>
-    <color name="blue_900">#001E2D</color>
-    <color name="blue_999">#001825</color>
+    <color name="blue_100">#4A4947</color>
+    <color name="blue_200">#4A4947</color>
+    <color name="blue_300">#4A4947</color>
+    <color name="blue_400">#4A4947</color>
+    <color name="blue_500">#4A4947</color>
+    <color name="blue_600">#4A4947</color>
+    <color name="blue_700">#4A4947</color>
+    <color name="blue_800">#4A4947</color>
+    <color name="blue_900">#4A4947</color>
+    <color name="blue_999">#4A4947</color>
 
 
     <color name="orange_light">#FD9E02</color>
@@ -27,11 +27,11 @@
     <color name="orange_dark">#CC6D00</color>
 
 
-    <color name="pink_500">#ff4d6d</color>
-    <color name="pink_600">#c9184a</color>
-    <color name="pink_700">#a4133c</color>
-    <color name="pink_800">#800f2f</color>
-    <color name="pink_900">#590d22</color>
+    <color name="pink_500">#A8775C</color>
+    <color name="pink_600">#A8775C</color>
+    <color name="pink_700">#A8775C</color>
+    <color name="pink_800">#A8775C</color>
+    <color name="pink_900">#A8775C</color>
 
 
     <color name="ripple_color">#347A7A7A</color>

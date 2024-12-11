@@ -92,7 +92,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/off_white"
             android:textSize="14sp"
-            app:backgroundTint="#C9184A"
+            app:backgroundTint="@color/pink_600"
             app:cornerRadius="8dp"
             app:icon="@drawable/icon_arrow_forward"
             app:iconGravity="end"
