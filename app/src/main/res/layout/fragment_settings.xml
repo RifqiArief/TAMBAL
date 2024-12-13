@@ -177,6 +177,7 @@
                     app:iconGravity="end"
                     app:iconTint="@color/blue_800"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/settingsGeneralTitle"
                     app:rippleColor="@color/ripple_color" />
@@ -334,7 +335,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="2dp"
-                    android:backgroundTint="@color/blue_800"
+                    android:backgroundTint="@color/pink_600"
                     android:fontFamily="@font/montserrat_bold"
                     android:paddingHorizontal="24dp"
                     android:text="Edit Profile"

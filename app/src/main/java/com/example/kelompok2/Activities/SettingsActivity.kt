@@ -1,5 +1,6 @@
 package com.example.kelompok2.Activities
 
+import UpgradeMechanicFragment
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -26,6 +27,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var btnSaveName: Button
     private lateinit var btnChangePassword: Button
     private lateinit var btnGoBack: Button
+    private lateinit var btnUpgradeMechanic: Button
 
     private val db = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
@@ -46,6 +48,7 @@ class SettingsActivity : AppCompatActivity() {
         btnSaveName = findViewById(R.id.btn_save_name)
         btnChangePassword = findViewById(R.id.btn_change_password)
         btnGoBack = findViewById(R.id.btn_go_back)
+        btnUpgradeMechanic = findViewById(R.id.btn_upgrade_mechanic)
 
         loadUserData()
 
@@ -73,6 +76,11 @@ class SettingsActivity : AppCompatActivity() {
 
         btnGoBack.setOnClickListener {
             finish()
+        }
+
+        btnUpgradeMechanic.setOnClickListener {
+            val fragment = UpgradeMechanicFragment()
+            fragment.show(supportFragmentManager, "UpgradeMechanicFragment")
         }
     }
 
@@ -139,6 +147,7 @@ class SettingsActivity : AppCompatActivity() {
                     if (document.exists()) {
                         val fullName = document.getString("fullName") ?: "User"
                         val profileImageUrl = document.getString("profileImage") ?: ""
+                        val role = document.getString("role") ?: "user"
 
                         etFullName.setText(fullName)
 
@@ -147,6 +156,10 @@ class SettingsActivity : AppCompatActivity() {
                                 .load(profileImageUrl)
                                 .placeholder(android.R.drawable.ic_menu_camera)
                                 .into(ivProfileImage)
+                        }
+
+                        if (role == "mechanic") {
+                            btnUpgradeMechanic.text = "Change Mechanic Info"
                         }
                     } else {
                         Toast.makeText(this, "User data not found.", Toast.LENGTH_SHORT).show()
