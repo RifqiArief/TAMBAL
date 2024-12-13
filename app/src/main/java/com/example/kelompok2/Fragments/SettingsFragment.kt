@@ -53,10 +53,29 @@ class SettingsFragment : Fragment() {
             signOut()
         }
 
+        // Set click listeners for navigation buttons
+        view.findViewById<View>(R.id.settingsGeneralAccountBtn).setOnClickListener {
+            navigateToFragment(AccountInfoFragment())
+        }
+        view.findViewById<View>(R.id.settingsGeneralPrivacyBtn).setOnClickListener {
+            navigateToFragment(PrivacySecurityFragment())
+        }
+        view.findViewById<View>(R.id.settingsGeneralDisplayBtn).setOnClickListener {
+            navigateToFragment(DisplayFragment())
+        }
+
         return view
     }
 
-    // Function to load user's full name from Firestore
+    // Helper function to navigate to different fragments
+    private fun navigateToFragment(fragment: Fragment) {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.frameLayout3, fragment)
+            .addToBackStack(null) // Allow back navigation
+            .commit()
+    }
+
+    // Function to load user's full name and profile image from Firestore
     private fun loadUserData() {
         currentUser?.let { user ->
             val userId = user.uid
@@ -74,10 +93,9 @@ class SettingsFragment : Fragment() {
                         if (profileImageUrl.isNotEmpty()) {
                             Glide.with(this)
                                 .load(profileImageUrl)
-                                .placeholder(R.drawable.icon_circle_user)  // Your default placeholder
+                                .placeholder(R.drawable.icon_circle_user) // Default placeholder
                                 .into(ivProfileImage)
                         } else {
-                            // Set placeholder if no image found
                             ivProfileImage.setImageResource(R.drawable.icon_circle_user)
                         }
                     } else {
@@ -85,7 +103,8 @@ class SettingsFragment : Fragment() {
                     }
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(context, "Failed to load data: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Failed to load data: ${e.message}", Toast.LENGTH_SHORT)
+                        .show()
                 }
         }
     }
@@ -98,6 +117,6 @@ class SettingsFragment : Fragment() {
         // Redirect to the LandingActivity or Login Screen
         val intent = Intent(requireContext(), LandingActivity::class.java)
         startActivity(intent)
-        requireActivity().finish()  // Close the current activity
+        requireActivity().finish() // Close the current activity
     }
 }
