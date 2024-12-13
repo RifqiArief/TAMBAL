@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/bg_popup"
+    android:elevation="8dp"
+    android:layout_gravity="center">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mechanic Profile"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:paddingBottom="8dp"
+        android:textColor="@color/white" />
+
+    <!-- Name Field -->
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Shop Name"
+        android:inputType="textPersonName"
+        android:background="@drawable/edit_text_background"
+        android:padding="10dp"
+        android:textColor="@color/black" />
+
+    <!-- Email Field -->
+    <EditText
+        android:id="@+id/et_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email Address"
+        android:inputType="textEmailAddress"
+        android:background="@drawable/edit_text_background"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp" />
+
+    <!-- Mobile Field -->
+    <EditText
+        android:id="@+id/et_mobile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Mobile Number"
+        android:inputType="phone"
+        android:background="@drawable/edit_text_background"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp" />
+
+    <!-- Checkbox for Terms and Conditions -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical">
+
+        <CheckBox
+            android:id="@+id/cb_terms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/pink_600"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:id="@+id/tv_terms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I agree to the Terms and Conditions"
+            android:textSize="14sp"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <!-- Confirm Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/alata"
+        android:text="Let's Go"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/off_white"
+        android:textSize="18sp"
+        app:backgroundTint="@color/pink_600"
+        app:cornerRadius="30dp"
+        app:rippleColor="@color/ripple_color" />
+</LinearLayout>

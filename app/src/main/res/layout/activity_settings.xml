@@ -10,11 +10,11 @@
     <!-- Top White Section -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="513dp"
         android:layout_weight="1"
+        android:background="@android:color/white"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:background="@android:color/white">
+        android:padding="16dp">
 
         <!-- Profile Picture -->
         <ImageView
@@ -22,23 +22,23 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_gravity="center_horizontal"
-            android:contentDescription="Profile Image"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="32dp"
-            android:scaleType="centerCrop"
             android:background="@android:color/darker_gray"
-            android:clipToOutline="true"
             android:clickable="true"
-            android:focusable="true" />
+            android:clipToOutline="true"
+            android:contentDescription="Profile Image"
+            android:focusable="true"
+            android:scaleType="centerCrop" />
 
         <!-- Full Name Input -->
         <EditText
             android:id="@+id/et_full_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Full Name"
             android:fontFamily="@font/alata"
-            android:textColor="@color/off_white"/>
+            android:hint="Enter Full Name"
+            android:textColor="@color/off_white" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_save_name"
@@ -64,18 +64,7 @@
             android:hint="Enter New Password"
             android:inputType="textPassword"
             android:textColor="@color/off_white" />
-    </LinearLayout>
 
-    <!-- Bottom Blue Section -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:background="@drawable/bg_main_blue">
-
-        <!-- Change Password Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_change_password"
             android:layout_width="wrap_content"
@@ -90,6 +79,33 @@
             app:backgroundTint="@color/pink_600"
             app:cornerRadius="30dp"
             app:rippleColor="@color/ripple_color" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_upgrade_mechanic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/alata"
+            android:text="Upgrade to Mechanic"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/off_white"
+            android:textSize="18sp"
+            app:backgroundTint="@color/pink_600"
+            app:cornerRadius="30dp"
+            app:rippleColor="@color/ripple_color" />
+    </LinearLayout>
+
+    <!-- Bottom Blue Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_main_blue"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Upgrade to Mechanic Button -->
 
         <View
             android:layout_width="match_parent"
