@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue_100">
+
+    <!-- Header -->
+    <LinearLayout
+        android:id="@+id/chat_header"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/blue_100"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/iv_profile_picture"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_profile_placeholder"
+            android:scaleType="centerCrop"
+            android:background="@drawable/circle_background" />
+
+        <TextView
+            android:id="@+id/tv_chat_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="Budi Ban Bocor"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <!-- Chat List -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_chat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/chat_input_layout"
+        android:layout_below="@id/chat_header"
+        android:padding="16dp"
+        android:clipToPadding="false" />
+
+    <!-- Chat Input -->
+    <LinearLayout
+        android:id="@+id/chat_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="@color/off_white">
+
+        <ImageView
+            android:id="@+id/iv_attach"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_attach"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="Attach" />
+
+        <EditText
+            android:id="@+id/et_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Type here..."
+            android:padding="8dp"
+            android:background="@drawable/edit_text_background"
+            android:textColor="@color/black"
+            android:imeOptions="actionSend" />
+
+        <ImageView
+            android:id="@+id/iv_send"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_send"
+            android:layout_marginStart="8dp"
+            android:contentDescription="Send" />
+    </LinearLayout>
+</RelativeLayout>

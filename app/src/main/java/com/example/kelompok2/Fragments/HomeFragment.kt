@@ -9,11 +9,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import com.bumptech.glide.Glide
 import com.example.kelompok2.Activities.SettingsActivity
 import com.example.kelompok2.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.android.material.button.MaterialButton
 
 class HomeFragment : Fragment() {
 
@@ -42,6 +44,18 @@ class HomeFragment : Fragment() {
         ivHomeProfileImage.setOnClickListener {
             val intent = Intent(requireContext(), SettingsActivity::class.java)
             startActivity(intent)
+        }
+
+        // Find the chat button
+        val chatButton: MaterialButton = view.findViewById(R.id.homeRecentCarBookBtn)
+
+        // Set up the click listener
+        chatButton.setOnClickListener {
+            // Navigate to ChatFragment
+            parentFragmentManager.commit {
+                replace(R.id.FragmentContainer, ChatFragment())
+                addToBackStack(null)
+            }
         }
 
         return view
