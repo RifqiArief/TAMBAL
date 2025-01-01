@@ -42,6 +42,31 @@ class SettingsFragment : Fragment() {
         // Load user data
         loadUserData()
 
+        // Set click listener for Account button
+        view.findViewById<View>(R.id.settingsGeneralAccountBtn).setOnClickListener {
+            openAccountFragment()
+        }
+
+        // Set click listener for Privacy button
+        view.findViewById<View>(R.id.settingsGeneralPrivacyBtn).setOnClickListener {
+            openPrivacyFragment()
+        }
+
+        // Set click listener for Notifications button
+        view.findViewById<View>(R.id.settingsGeneralNotificationsBtn).setOnClickListener {
+            openNotificationsFragment()
+        }
+
+        // Set click listener for Report Bug button
+        view.findViewById<View>(R.id.settingsGeneralBugBtn).setOnClickListener {
+            openReportBugFragment()
+        }
+
+        // Set click listener for Send Feedback button
+        view.findViewById<View>(R.id.settingsGeneralFeedbackBtn).setOnClickListener {
+            openFeedbackFragment()
+        }
+
         // Set click listener for Edit Profile button
         view.findViewById<View>(R.id.settingsEditProfileBtn).setOnClickListener {
             val intent = Intent(requireContext(), SettingsActivity::class.java)
@@ -99,5 +124,45 @@ class SettingsFragment : Fragment() {
         val intent = Intent(requireContext(), LandingActivity::class.java)
         startActivity(intent)
         requireActivity().finish()  // Close the current activity
+    }
+
+    // Function to open AccountFragment
+    private fun openAccountFragment() {
+        val transaction = parentFragmentManager.beginTransaction()
+        transaction.replace(this.id, AccountFragment()) // Replace current fragment
+        transaction.addToBackStack(null) // Add the transaction to the back stack
+        transaction.commit()
+    }
+
+    // Function to open PrivacyFragment
+    private fun openPrivacyFragment() {
+        val transaction = parentFragmentManager.beginTransaction()
+        transaction.replace(this.id, PrivacyFragment()) // Replace current fragment
+        transaction.addToBackStack(null) // Add to back stack
+        transaction.commit()
+    }
+
+    // Function to open Notifications2Fragment
+    private fun openNotificationsFragment() {
+        val transaction = parentFragmentManager.beginTransaction()
+        transaction.replace(this.id, Notifications2Fragment()) // Replace current fragment
+        transaction.addToBackStack(null) // Add to back stack
+        transaction.commit()
+    }
+
+    // Function to open ReportBugFragment
+    private fun openReportBugFragment() {
+        val transaction = parentFragmentManager.beginTransaction()
+        transaction.replace(this.id, ReportBugFragment()) // Replace current fragment
+        transaction.addToBackStack(null) // Add to back stack
+        transaction.commit()
+    }
+
+    // Function to open FeedbackFragment
+    private fun openFeedbackFragment() {
+        val transaction = parentFragmentManager.beginTransaction()
+        transaction.replace(this.id, FeedbackFragment()) // Replace current fragment
+        transaction.addToBackStack(null) // Add to back stack
+        transaction.commit()
     }
 }

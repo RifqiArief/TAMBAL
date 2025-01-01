@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -23,10 +24,8 @@ class SettingsActivity : AppCompatActivity() {
 
     private lateinit var ivProfileImage: ImageView
     private lateinit var etFullName: EditText
-    private lateinit var etNewPassword: EditText
     private lateinit var btnSaveName: Button
-    private lateinit var btnChangePassword: Button
-    private lateinit var btnGoBack: Button
+    private lateinit var btnGoBack: ImageButton
     private lateinit var btnUpgradeMechanic: Button
 
     private val db = FirebaseFirestore.getInstance()
@@ -44,9 +43,7 @@ class SettingsActivity : AppCompatActivity() {
 
         ivProfileImage = findViewById(R.id.settingsProfileImage)
         etFullName = findViewById(R.id.et_full_name)
-        etNewPassword = findViewById(R.id.et_new_password)
         btnSaveName = findViewById(R.id.btn_save_name)
-        btnChangePassword = findViewById(R.id.btn_change_password)
         btnGoBack = findViewById(R.id.btn_go_back)
         btnUpgradeMechanic = findViewById(R.id.btn_upgrade_mechanic)
 
@@ -65,17 +62,8 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        btnChangePassword.setOnClickListener {
-            val newPassword = etNewPassword.text.toString()
-            if (newPassword.length >= 6) {
-                changeUserPassword(newPassword)
-            } else {
-                Toast.makeText(this, "Password must be at least 6 characters long", Toast.LENGTH_SHORT).show()
-            }
-        }
-
         btnGoBack.setOnClickListener {
-            finish()
+            finish() // Menutup activity ini
         }
 
         btnUpgradeMechanic.setOnClickListener {
@@ -169,17 +157,6 @@ class SettingsActivity : AppCompatActivity() {
                     Toast.makeText(this, "Failed to load data: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
         }
-    }
-
-    private fun changeUserPassword(newPassword: String) {
-        currentUser?.updatePassword(newPassword)
-            ?.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(this, "Password changed successfully!", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "Failed to change password: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-                }
-            }
     }
 
     private fun saveFullNameToFirestore(fullName: String) {
