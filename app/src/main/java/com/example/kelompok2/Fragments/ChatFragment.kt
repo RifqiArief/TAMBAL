@@ -1,20 +1,22 @@
 package com.example.kelompok2.Fragments
 
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kelompok2.Adapters.ChatAdapter
 import com.example.kelompok2.R
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.auth.FirebaseAuth
 import com.example.kelompok2.DataModels.ChatMessage
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class ChatFragment : Fragment() {
 
@@ -22,7 +24,6 @@ class ChatFragment : Fragment() {
     private lateinit var chatAdapter: ChatAdapter
     private lateinit var messageInput: EditText
     private lateinit var sendButton: ImageView
-
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
     private val currentUser = auth.currentUser
@@ -33,23 +34,57 @@ class ChatFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_chat, container, false)
 
+        // Jika receiverId kosong, gunakan user sendiri untuk self-chat
+        val receiverId = arguments?.getString("receiverId") ?: currentUser?.uid
+
         chatRecyclerView = view.findViewById(R.id.rv_chat)
         messageInput = view.findViewById(R.id.et_message)
         sendButton = view.findViewById(R.id.iv_send)
 
         setupRecyclerView()
-        loadChatHistory()
 
+        receiverId?.let {
+            loadChatHistory(it)
+        }
+
+        // Tombol Kirim Pesan
         sendButton.setOnClickListener {
             val message = messageInput.text.toString()
             if (message.isNotEmpty()) {
-                sendMessage(message)
-                messageInput.text.clear()
+                receiverId?.let {
+                    sendMessage(message, it)
+                    messageInput.text.clear()
+                }
             } else {
                 Toast.makeText(requireContext(), "Message cannot be empty", Toast.LENGTH_SHORT).show()
             }
         }
 
+        // Tombol Back
+        view.findViewById<ImageView>(R.id.iv_back).setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
+        // Tombol Enter untuk Kirim Pesan
+        messageInput.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEND ||
+                event?.action == KeyEvent.ACTION_DOWN &&
+                event.keyCode == KeyEvent.KEYCODE_ENTER) {
+
+                val message = messageInput.text.toString()
+                if (message.isNotEmpty()) {
+                    receiverId?.let {
+                        sendMessage(message, it)
+                        messageInput.text.clear()
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Message cannot be empty", Toast.LENGTH_SHORT).show()
+                }
+                true
+            } else {
+                false
+            }
+        }
         return view
     }
 
@@ -59,43 +94,51 @@ class ChatFragment : Fragment() {
         chatRecyclerView.adapter = chatAdapter
     }
 
-    private fun sendMessage(message: String) {
-        val chatMessage = ChatMessage(message = message, isUser = true)
+    // Menghasilkan chatId unik untuk obrolan antar dua pengguna atau self-chat
+    private fun generateChatId(user1: String, user2: String): String {
+        return if (user1 == user2) {
+            "${user1}_selfChat"
+        } else if (user1 < user2) {
+            "${user1}_${user2}"
+        } else {
+            "${user2}_${user1}"
+        }
+    }
 
-        val chatMap = hashMapOf(
-            "userId" to (currentUser?.uid ?: "Anonymous"),
-            "message" to message,
-            "isUser" to true,
-            "timestamp" to System.currentTimeMillis()
-        )
+    private fun sendMessage(message: String, receiverId: String) {
+        val senderId = currentUser?.uid ?: return
+        val chatId = generateChatId(senderId, receiverId)
+        val chatMessage = ChatMessage(message, senderId, receiverId)
 
-        db.collection("chats")
-            .add(chatMap)
+        db.collection("chats").document(chatId)
+            .collection("messages")
+            .add(chatMessage)
             .addOnSuccessListener {
-                chatAdapter.addMessage(chatMessage)
+                chatAdapter.addMessage(chatMessage)  // Tambahkan langsung ke RecyclerView
                 chatRecyclerView.scrollToPosition(chatAdapter.itemCount - 1)
+                Toast.makeText(requireContext(), "Message sent", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener {
-                Toast.makeText(context, "Failed to send message", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Failed to send message", Toast.LENGTH_SHORT).show()
             }
     }
 
-    private fun loadChatHistory() {
-        db.collection("chats")
+    private fun loadChatHistory(receiverId: String) {
+        val senderId = currentUser?.uid ?: return
+        val chatId = generateChatId(senderId, receiverId)
+
+        db.collection("chats").document(chatId)
+            .collection("messages")
             .orderBy("timestamp")
-            .get()
-            .addOnSuccessListener { result ->
-                val chatMessages = mutableListOf<ChatMessage>()
-                for (document in result) {
-                    val message = document.getString("message") ?: ""
-                    val isUser = document.getBoolean("isUser") ?: false
-                    chatMessages.add(ChatMessage(message, isUser))
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Toast.makeText(requireContext(), "Failed to load messages", Toast.LENGTH_SHORT).show()
+                    return@addSnapshotListener
                 }
-                chatAdapter.setMessages(chatMessages)
-                chatRecyclerView.scrollToPosition(chatAdapter.itemCount - 1)
-            }
-            .addOnFailureListener {
-                Toast.makeText(context, "Failed to load chat history", Toast.LENGTH_SHORT).show()
+                snapshots?.let {
+                    val messages = it.toObjects(ChatMessage::class.java)
+                    chatAdapter.setMessages(messages)
+                }
             }
     }
 }
