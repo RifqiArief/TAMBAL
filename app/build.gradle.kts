@@ -66,6 +66,9 @@ dependencies {
     implementation (libs.circleimageview)
     implementation (libs.picasso)
 
+    implementation ("com.google.android.gms:play-services-maps:18.2.0")
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
+
     implementation ("com.google.firebase:firebase-storage")
     implementation(libs.firebase.auth)
     implementation(libs.androidx.constraintlayout)

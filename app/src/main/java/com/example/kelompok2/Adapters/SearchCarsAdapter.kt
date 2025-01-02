@@ -13,6 +13,9 @@ import com.squareup.picasso.Picasso
 
 class SearchCarsAdapter(private var carList: List<CarModel>) : RecyclerView.Adapter<SearchCarsAdapter.ViewHolder>() {
 
+    // New: Interface for item click
+    var onItemClick: ((CarModel) -> Unit)? = null
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val brandTv: TextView = itemView.findViewById(R.id.sampleSearchCarBrand)
         val modelTv: TextView = itemView.findViewById(R.id.sampleSearchCarModel)
@@ -34,12 +37,11 @@ class SearchCarsAdapter(private var carList: List<CarModel>) : RecyclerView.Adap
         return ViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: SearchCarsAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentCar = carList[position]
-
         holder.brandTv.text = currentCar.brand
         holder.modelTv.text = currentCar.model
-        holder.ratingTv.text =currentCar.rating.toString()
+        holder.ratingTv.text = currentCar.rating.toString()
 
         holder.seatsTv.text = currentCar.seats.toString()
         holder.doorsTv.text = currentCar.doors.toString()
@@ -50,9 +52,17 @@ class SearchCarsAdapter(private var carList: List<CarModel>) : RecyclerView.Adap
             .placeholder(R.drawable.ic_menu_gallery)
             .into(holder.carImage)
 
-        holder.itemView.setOnClickListener{
-            Toast.makeText(it.context, "${currentCar.brand} ${currentCar.model}", Toast.LENGTH_SHORT).show()
+        println("Binding item: ${currentCar.brand}")
+
+        holder.itemView.setOnClickListener {
+            it.alpha = 0.5f
+            it.postDelayed({
+                it.alpha = 1f
+            }, 200)
+            Toast.makeText(it.context, "Selected: ${currentCar.brand}", Toast.LENGTH_SHORT).show()
+            onItemClick?.invoke(currentCar)
         }
+
     }
 
     override fun getItemCount() = carList.size

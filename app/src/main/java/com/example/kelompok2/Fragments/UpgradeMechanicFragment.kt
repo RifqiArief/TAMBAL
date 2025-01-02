@@ -1,4 +1,6 @@
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +9,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import com.example.kelompok2.Activities.LocationPickerActivity
 import com.example.kelompok2.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -21,7 +24,6 @@ class UpgradeMechanicFragment : DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_upgrade_mechanic, container, false)
 
         val nameEditText: EditText = view.findViewById(R.id.et_name)
@@ -30,10 +32,9 @@ class UpgradeMechanicFragment : DialogFragment() {
         val confirmButton: Button = view.findViewById(R.id.btn_confirm)
         val termsCheckBox: CheckBox = view.findViewById(R.id.cb_terms)
 
-        // Disable the confirm button initially
         confirmButton.isEnabled = false
 
-        // Add a listener to the CheckBox to enable the confirm button when checked
+        // Enable button only when checkbox is checked
         termsCheckBox.setOnCheckedChangeListener { _, isChecked ->
             confirmButton.isEnabled = isChecked
         }
@@ -44,7 +45,7 @@ class UpgradeMechanicFragment : DialogFragment() {
             val mobile = mobileEditText.text.toString()
 
             if (name.isNotEmpty() && email.isNotEmpty() && mobile.isNotEmpty()) {
-                updateUserRoleToMechanic(name, email, mobile)
+                checkIfUserIsMechanic(name, email, mobile)
             } else {
                 Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
             }
@@ -53,6 +54,36 @@ class UpgradeMechanicFragment : DialogFragment() {
         return view
     }
 
+    // Check if user is already a mechanic with location
+    private fun checkIfUserIsMechanic(name: String, email: String, mobile: String) {
+        val userId = currentUser?.uid ?: return
+
+        db.collection("Users").document(userId)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val userType = document.getString("userType")
+                    val location = document.get("location") as? Map<*, *>
+
+                    if (userType == "mechanic" && location != null) {
+                        Toast.makeText(context, "You are already a mechanic with a set location.", Toast.LENGTH_LONG).show()
+                        dismiss()
+                    } else if (userType == "mechanic" && location == null) {
+                        // Redirect to location picker if no location exists
+                        redirectToLocationPicker(userId)
+                    } else {
+                        updateUserRoleToMechanic(name, email, mobile)
+                    }
+                } else {
+                    updateUserRoleToMechanic(name, email, mobile)
+                }
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(context, "Error checking profile: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    // Update user to mechanic role
     private fun updateUserRoleToMechanic(name: String, email: String, mobile: String) {
         val userId = currentUser?.uid ?: return
         val userMap = mapOf(
@@ -63,14 +94,24 @@ class UpgradeMechanicFragment : DialogFragment() {
         )
 
         db.collection("Users").document(userId)
-            .set(userMap)
+            .update(userMap)
             .addOnSuccessListener {
                 Toast.makeText(context, "Profile Updated! You are now a mechanic.", Toast.LENGTH_SHORT).show()
-                dismiss() // Close the dialog
+                redirectToLocationPicker(userId)  // After upgrade, set location
             }
             .addOnFailureListener { e ->
                 Toast.makeText(context, "Failed to update profile: ${e.message}", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    // Redirect to Location Picker Activity
+    private fun redirectToLocationPicker(userId: String) {
+        Log.d("UpgradeMechanic", "Redirecting to Location Picker for user: $userId")
+        Toast.makeText(context, "Redirecting to map...", Toast.LENGTH_SHORT).show()
+        val intent = Intent(requireContext(), LocationPickerActivity::class.java)
+        intent.putExtra("userId", userId)
+        startActivity(intent)
+        dismiss()
     }
 
     override fun onStart() {
