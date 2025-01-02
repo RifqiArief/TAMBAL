@@ -1,5 +1,6 @@
 package com.example.kelompok2.Fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,9 +9,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kelompok2.Activities.LocationPickerActivity
 import com.example.kelompok2.Adapters.SearchCarsAdapter
 import com.example.kelompok2.DataModels.CarModel
 import com.example.kelompok2.databinding.FragmentSearchBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class SearchFragment : Fragment() {
@@ -32,7 +35,20 @@ class SearchFragment : Fragment() {
 
         setupRecyclerView()
         fetchMechanicsFromFirestore()
+
+        // Trigger the location picker from the top-right edit button
+        binding.searchHeaderEditBtn.setOnClickListener {
+            val userId = FirebaseAuth.getInstance().currentUser?.uid
+            if (userId != null) {
+                val intent = Intent(requireContext(), LocationPickerActivity::class.java)
+                intent.putExtra("userId", userId)
+                startActivity(intent)
+            } else {
+                Toast.makeText(context, "Please sign in to change location.", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
+
 
     private fun setupRecyclerView() {
         searchCarsAdapter = SearchCarsAdapter(emptyList())
