@@ -1,22 +1,25 @@
 package com.example.kelompok2.Fragments
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.kelompok2.Adapters.SearchCarsAdapter
+import com.example.kelompok2.Activities.LocationPickerActivity
+import com.example.kelompok2.Adapters.MechanicAdapter
 import com.example.kelompok2.DataModels.CarModel
+import com.example.kelompok2.DataModels.ServiceOrderModel
 import com.example.kelompok2.databinding.FragmentSearchBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
-    private lateinit var searchCarsAdapter: SearchCarsAdapter
+    private lateinit var mechanicAdapter: MechanicAdapter
     private val db = FirebaseFirestore.getInstance()
 
     override fun onCreateView(
@@ -32,34 +35,59 @@ class SearchFragment : Fragment() {
 
         setupRecyclerView()
         fetchMechanicsFromFirestore()
+
+        // Launch location picker on edit button click
+        binding.searchHeaderEditBtn.setOnClickListener {
+            val userId = FirebaseAuth.getInstance().currentUser?.uid
+            if (userId != null) {
+                val intent = Intent(requireContext(), LocationPickerActivity::class.java)
+                intent.putExtra("userId", userId)
+                startActivity(intent)
+            } else {
+                Toast.makeText(context, "Please sign in to change location.", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun setupRecyclerView() {
-        searchCarsAdapter = SearchCarsAdapter(emptyList())
-        searchCarsAdapter.onItemClick = { selectedMechanic ->
-            Toast.makeText(requireContext(), "Navigating to ${selectedMechanic.brand}'s details", Toast.LENGTH_SHORT).show()
+        mechanicAdapter = MechanicAdapter(emptyList())
+
+        // Handle Order Button Click
+        mechanicAdapter.onOrderClick = onOrderClick@{ selectedMechanic ->
+            val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return@onOrderClick
+            val userName = FirebaseAuth.getInstance().currentUser?.displayName ?: "Unknown User"
+            val userPhone = "123-456-789"  // Placeholder or fetch from user profile
+
+            val order = ServiceOrderModel(
+                orderId = db.collection("Orders").document().id,
+                mechanicId = selectedMechanic.brand,
+                userId = userId,
+                userName = userName,
+                userPhone = userPhone,
+                status = "Pending"
+            )
+
+            db.collection("Orders").document(order.orderId)
+                .set(order)
+                .addOnSuccessListener {
+                    Toast.makeText(context, "Order Sent Successfully!", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(context, "Failed to send order: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
         }
+
         binding.searchRecyclerView.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = searchCarsAdapter
+            layoutManager = LinearLayoutManager(context)
+            adapter = mechanicAdapter
         }
     }
-
-
 
     private fun fetchMechanicsFromFirestore() {
         db.collection("Users")
             .whereEqualTo("userType", "mechanic")
             .get()
             .addOnSuccessListener { documents ->
-                if (documents.isEmpty) {
-                    println("No mechanics found.")
-                } else {
-                    for (doc in documents) {
-                        println("Fetched: ${doc.data}")
-                    }
-                }
-
                 val mechanicsList = documents.mapNotNull { doc ->
                     val fullName = doc.getString("fullName") ?: "Unknown"
                     val lat = doc.get("location.lat") as? Double
@@ -67,7 +95,7 @@ class SearchFragment : Fragment() {
                     if (lat != null && lng != null) {
                         CarModel(
                             brand = fullName,
-                            model = "Mechanic Location",
+                            model = "Mechanic Service",
                             seats = 0,
                             doors = 0,
                             transmission = "-",
@@ -82,11 +110,10 @@ class SearchFragment : Fragment() {
                         null
                     }
                 }
-                searchCarsAdapter.updateCarList(mechanicsList)
+                mechanicAdapter.updateMechanicList(mechanicsList)
             }
             .addOnFailureListener { e ->
                 println("Failed to fetch mechanics: ${e.message}")
             }
     }
-
 }
