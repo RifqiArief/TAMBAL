@@ -1,7 +1,6 @@
-        <TAMBAL>
 Aplikasi TAMBAL (Tambal Ban Online)
 TAMBAL adalah aplikasi inovatif yang membantu pengendara kendaraan menemukan solusi cepat saat menghadapi masalah ban di jalan. Dengan TAMBAL, pengendara dapat dengan mudah menemukan mitra tambal ban terdekat atau memanggil mekanik langsung ke lokasi mereka.  
-        <TAMBAL>
+
     Fidel Brian Dava (00000073866)
     Rifqi Arief Wicaksana (00000073943)
     Damar Nur Rafly (00000074723)
