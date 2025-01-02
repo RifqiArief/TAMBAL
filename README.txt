@@ -1,13 +1,42 @@
         <TAMBAL>
-aplikasi TAMBAL memiliki kepanjangan Tambal Ban Online, aplikasi ini berfungsi sebagai jembatan untuk pengguna kendaraan yang memiliki masalah pada kendaraannya yang mogogk ditengah jalan, ban bocor, tidak ada waktu ke bengkel. Tujuan aplikasi ini adalah mempermudah orang-orang untuk mendapatkan perbaikan pada kendaraanya karena pada aaplikasi ini mechanic atau bengkelah yang akan mendatangi client, selain itu kita juga bisa book tempat di bengkel agar ketersediaan bengkel terjamin dan mengestimasi lamanya perbaikan.
+Aplikasi TAMBAL (Tambal Ban Online)
+TAMBAL adalah aplikasi inovatif yang membantu pengendara kendaraan menemukan solusi cepat saat menghadapi masalah ban di jalan. Dengan TAMBAL, pengendara dapat dengan mudah menemukan mitra tambal ban terdekat atau memanggil mekanik langsung ke lokasi mereka.  
         <TAMBAL>
     Fidel Brian Dava (00000073866)
     Rifqi Arief Wicaksana (00000073943)
     Damar Nur Rafly (00000074723)
     Jonathan joshua (00000074760)
 
-Berikut Adalah Link Video dan Sebagian Progress App: https://drive.google.com/file/d/1hg5-7cm6qJBrsR_FAdAjhvGAhjgdDMBH/view?usp=sharing
-1. aplikasi ini dibuat menggunakan bahasa kotlin dengan menggunakan firebase sebagai databasenya
-2. untuk firebase kita sudah menggunakan fitur auth dan firestore untuk menyokong fungsi dari aplikasi
-3. saat ini aplikasi ini memiliki beberapa fitur seperti login, register, profile update 
-4. saat ini aplikasi ini juga memiliki beberapa halaman seperti halaman login, register, home page, notification, profile, placeholder untuk maps
+Fitur Utama Aplikasi TAMBAL
+1. Pencarian Lokasi Mitra Tambal Ban (GPS Integration): 
+   - Aplikasi memanfaatkan teknologi GPS untuk menampilkan lokasi mitra tambal ban terdekat secara real-time.  
+   - Memberikan rute tercepat menuju lokasi mitra atau memungkinkan pemesanan mekanik untuk datang langsung ke lokasi pengguna.  
+
+2. Fitur Kamera untuk Verifikasi Masalah:  
+   - Pengguna dapat mengunggah foto kondisi ban mereka menggunakan fitur kamera.  
+   - Memudahkan mekanik dalam memahami masalah sebelum tiba di lokasi.  
+
+3. Fitur Utama Lainnya:
+   - Login & Register: Menggunakan Firebase Authentication untuk keamanan data pengguna.  
+   - Profile Management:  
+     - Pengguna dapat memperbarui foto profil dan data pribadi.  
+     - Terdapat fitur "Change Role" untuk beralih antara customer dan montir.  
+   - Feedback & Review:  
+     - Pengguna dapat memberikan ulasan terhadap pelayanan mekanik atau aplikasi.  
+   - Estimasi Waktu Servis:  
+     - Informasi estimasi waktu perbaikan sehingga pengguna dapat mengatur waktu dengan lebih baik.  
+
+4. Keamanan Data (Firebase):  
+   - Menggunakan Firebase Firestore untuk menyimpan data dengan aman.  
+   - Fitur autentikasi yang melindungi akun pengguna dari akses tidak sah.  
+
+5. User Experience yang Intuitif:  
+   - Desain antarmuka (UX) yang sederhana dan mudah dipelajari.  
+   - Pengguna (customer/mekanik) dapat berinteraksi dengan lancar melalui aplikasi. 
+
+Keunggulan Aplikasi TAMBAL:
+- Kemudahan Akses: Tidak perlu lagi bingung mencari lokasi tambal ban terdekat.  
+- Layanan Jemput: Mekanik dapat langsung datang ke lokasi pengguna kapan saja.  
+- Pelayanan Lengkap & Nyaman: Aplikasi dirancang untuk memprioritaskan kenyamanan dan keamanan pengguna.  
+
+Dengan TAMBAL, pengendara kini memiliki solusi modern untuk mengatasi masalah kendaraan di jalan kapan saja dan di mana saja. 
