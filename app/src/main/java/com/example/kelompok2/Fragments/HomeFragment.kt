@@ -58,19 +58,45 @@ class HomeFragment : Fragment() {
     }
 
     // Fungsi untuk memuat daftar pengguna
+    // Fungsi untuk memuat daftar pengguna
     private fun loadUsers() {
-        db.collection("Users")
-            .get()
-            .addOnSuccessListener { documents ->
-                val userList = documents.map { it.toObject(UserModel::class.java) }
-                userAdapter = UserAdapter(userList) { user ->
-                    openChatFragment(user)
+        currentUser?.let { user ->
+            val userId = user.uid
+
+            // Ambil tipe pengguna yang sedang login
+            db.collection("Users").document(userId)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        val currentUserType = document.getString("userType") ?: "Standard"
+
+                        // Tentukan tipe yang ingin diambil (berlawanan dari tipe pengguna yang login)
+                        val targetUserType = if (currentUserType == "mechanic") "Standard" else "mechanic"
+
+                        // Query Firestore untuk memuat pengguna dengan tipe yang berbeda
+                        db.collection("Users")
+                            .whereEqualTo("userType", targetUserType)
+                            .get()
+                            .addOnSuccessListener { documents ->
+                                val userList = documents.map { it.toObject(UserModel::class.java) }
+
+                                // Pasang data ke dalam RecyclerView
+                                userAdapter = UserAdapter(userList) { user ->
+                                    openChatFragment(user)
+                                }
+                                userRecyclerView.adapter = userAdapter
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(context, "Failed to load users.", Toast.LENGTH_SHORT).show()
+                            }
+                    } else {
+                        Toast.makeText(context, "Failed to get user type.", Toast.LENGTH_SHORT).show()
+                    }
                 }
-                userRecyclerView.adapter = userAdapter
-            }
-            .addOnFailureListener {
-                Toast.makeText(context, "Failed to load users.", Toast.LENGTH_SHORT).show()
-            }
+                .addOnFailureListener {
+                    Toast.makeText(context, "Failed to load current user.", Toast.LENGTH_SHORT).show()
+                }
+        }
     }
 
     // Buka ChatFragment untuk user yang dipilih

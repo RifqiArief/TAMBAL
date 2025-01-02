@@ -266,38 +266,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/homeUserListLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/homeBrandsLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <TextView
-                android:id="@+id/homeUserListLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="Users"
-                android:textColor="@color/blue_800"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/userRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintTop_toBottomOf="@+id/homeUserListLabel"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/homeBrandsLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -321,7 +289,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/homeBrandsRecyclerView"
+                android:id="@+id/userRecyclerView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -339,7 +307,7 @@
                 android:background="?android:attr/listDivider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/homeBrandsRecyclerView" />
+                app:layout_constraintTop_toBottomOf="@+id/userRecyclerView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
